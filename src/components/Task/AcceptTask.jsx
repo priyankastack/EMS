@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const AcceptTask = ({loggdata}) => {
     return(
         <div className='flex-shrink-0 bg-[#80ed99] w-96 h-50 rounded-sm flex flex-col gap-3 !p-4 text-white '><div className='flex flex-row justify-between'><div className='text-sm bg-red-800 text-white text-center rounded-sm !px-2 !py-1'>{loggdata.category}</div><div className='text-sm text-white'>{loggdata.date}</div></div>
@@ -11,9 +10,5 @@ const AcceptTask = ({loggdata}) => {
                </div>
                </div>
              )
-     
-   
 }
-
-
 export default AcceptTask;

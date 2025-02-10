@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../context/Auth";
 
+
 const AllTask = () => {
   const authData=useContext(AuthContext);
 
@@ -10,11 +11,11 @@ const AllTask = () => {
 <table className="w-full border border-amber-100 text-center">
     <thead>
         <tr>
-            <th className="border-2 border-emerald-600 px-5 py-4">Name</th>
-            <th className="border-2 border-emerald-600 px-5 py-2">New</th>
-            <th className="border-2 border-emerald-600 px-5 py-2">Active</th>
-            <th className="border-2 border-emerald-600 px-5 py-2">Failed</th>
-            <th className="border-2 border-emerald-600 px-5 py-2">Completed</th>
+            <th className="border-2 border-emerald-600 px-5 !py-2">Name</th>
+            <th className="border-2 border-emerald-600 px-5 !py-2">New</th>
+            <th className="border-2 border-emerald-600 px-5 !py-2">Active</th>
+            <th className="border-2 border-emerald-600 px-5 !py-2">Failed</th>
+            <th className="border-2 border-emerald-600 px-5 !py-2">Completed</th>
         </tr>
     </thead>
     <tbody className="border-2">

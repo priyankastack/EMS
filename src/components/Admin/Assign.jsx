@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/Auth.jsx";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Assign = () => {
   const authData = useContext(AuthContext);
@@ -9,10 +10,12 @@ const Assign = () => {
   const [category, setCategory] = useState("");
   const [assign, setAssign] = useState("");
   const [desc, setDesc] = useState("");
-  const [task, setTask] = useState({});
+
   const submitHandler = (e) => {
     e.preventDefault();
-    setTask({
+
+    // Creating a new task object
+       const newTask = {
       title,
       date,
       category,
@@ -20,36 +23,51 @@ const Assign = () => {
       desc,
       active: false,
       newtask: true,
-      failed: true,
+      failed: false, // Changed to false for new tasks
       completed: false,
-    });
-    console.log(authData.employees);
-    {
-      !authData.employees
-        ? ""
-        : authData.employees.forEach((ele) => {
-            if (ele.name == assign) {
-              ele.tasks = [...ele.tasks, task];
-              ele.taskCounts.task = (ele.taskCounts.task || 0) + 1;
-              console.log(ele);
-            }
+    };
+
+    if (authData.employees) {
+      authData.employees.forEach((ele) => {
+        if (ele.name === assign) {
+          // Ensure `ele.tasks` is initialized before updating
+          ele.tasks = ele.tasks ? [...ele.tasks, newTask] : [newTask];
+
+          // Update task count correctly
+          ele.taskCounts.task = (ele.taskCounts.task || 0) + 1;
+
+          console.log(ele);
+          toast.success("Task Assigned successfully!", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
           });
+        }
+      });
     }
+
+    // Reset form fields after submission
     setTitle("");
     setDate("");
     setCategory("");
     setAssign("");
     setDesc("");
   };
+
   return (
     <>
       <form
-        onSubmit={(e) => submitHandler(e)}
+        onSubmit={submitHandler}
         className="bg-[#1c1c1c] grid lg:grid-cols-2 md:grid-cols-1 lg:gap-20 gap-3 rounded-sm w-full box-border"
         style={{ padding: "30px", margin: "10px 0" }}
       >
-        <div className=" flex flex-col gap-3">
-          <div className="">
+        <div className="flex flex-col gap-3">
+          <div>
             <label className="flex flex-col gap-1">
               Task Title
               <input
@@ -58,7 +76,7 @@ const Assign = () => {
                 type="text"
                 placeholder="Enter Task"
                 required
-                className=" border-white !px-2 border-2 rounded-sm outline-none placeholder-white h-10  "
+                className="border-white !px-2 border-2 rounded-sm outline-none placeholder-white h-10"
               />
             </label>
           </div>
@@ -70,7 +88,7 @@ const Assign = () => {
                 onChange={(e) => setDate(e.target.value)}
                 type="date"
                 required
-                className=" border-white !px-2 border-2 rounded-sm placeholder-white outline-none h-10 "
+                className="border-white !px-2 border-2 rounded-sm placeholder-white outline-none h-10"
               />
             </label>
           </div>
@@ -83,7 +101,7 @@ const Assign = () => {
                 type="text"
                 placeholder="Employee name"
                 required
-                className=" border-white !px-2 border-2 outline-none rounded-sm placeholder-white h-10 "
+                className="border-white !px-2 border-2 outline-none rounded-sm placeholder-white h-10"
               />
             </label>
           </div>
@@ -96,7 +114,7 @@ const Assign = () => {
                 type="text"
                 placeholder="Design, Dev, etc"
                 required
-                className=" border-white !px-2 border-2 outline-none rounded-sm placeholder-white h-10 "
+                className="border-white !px-2 border-2 outline-none rounded-sm placeholder-white h-10"
               />
             </label>
           </div>
@@ -113,12 +131,14 @@ const Assign = () => {
               ></textarea>
             </label>
           </div>
-          <button className=" bg-emerald-600 h-10 rounded-sm mt-2 w-full  ">
+          <button className="bg-emerald-600 h-10 rounded-sm mt-2 w-full">
             Create Task
           </button>
         </div>
       </form>
+      <ToastContainer />
     </>
   );
 };
+
 export default Assign;

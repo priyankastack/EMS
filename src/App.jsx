@@ -6,13 +6,14 @@ import { AuthContext } from "./context/Auth.jsx";
 import EmpDashboard from "./components/Employee/EmployeeDashboard";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import { getlocalstorage } from "./components/common/localstorage.jsx";
+import { ToastContainer,toast } from "react-toastify";
 
 function App() {
   const [user, setUser] = useState("");
   const [loggeduser, setloggedUser] = useState("");
   const authData = useContext(AuthContext);
 
-  useEffect(() => {
+  useEffect(() =>{
     const loginuser = localStorage.getItem("loggedInUser");
     if (loginuser) {
       const userData = JSON.parse(loginuser);
@@ -51,7 +52,16 @@ function App() {
       }
     }
     if (!admin || !employee) {
-      alert("Invalid Credentials.");
+      toast.error('Invalid User!', {
+        position: "top-right",
+        autoClose:1000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
       return;
     }
   };
@@ -61,6 +71,7 @@ function App() {
     setUser("");
   };
   return (
+    <>
     <div className="w-screen flex items-center justify-center">
       {!user ? <Login handleLogin={handleLogin} /> : null};
       {user === "admin" ? (
@@ -71,7 +82,10 @@ function App() {
         <EmpDashboard loggdata={loggeduser} logOut={logOut} />
       ) : null}
       ;
+      <ToastContainer/>
     </div>
+   
+    </>
   );
 }
 

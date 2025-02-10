@@ -12,5 +12,4 @@ const EmpDashboard = ({ loggdata, logOut }) => {
     </>
   );
 };
-
 export default EmpDashboard;
